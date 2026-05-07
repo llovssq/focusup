@@ -1,27 +1,11 @@
-import { Outlet, createRootRoute, HeadContent, Scripts } from "@tanstack/react-router";
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
-import { AppSidebar } from "@/components/AppSidebar";
-import { Search } from "lucide-react";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
+import { Outlet, createRootRoute } from "@tanstack/react-router";
 import { ThemeProvider } from "@/components/theme-provider";
 import { LanguageProvider } from "@/components/language-provider";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/react";
-
-import appCss from "../styles.css?url";
+import { Button } from "@/components/ui/button";
 
 export const Route = createRootRoute({
-  head: () => ({
-    meta: [
-      { charSet: "utf-8" },
-      { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "FocusAI — Дэшборд" },
-      { name: "description", content: "AI-платформа для борьбы с прокрастинацией" },
-    ],
-    links: [{ rel: "stylesheet", href: appCss }],
-  }),
-  shellComponent: RootShell,
   component: RootComponent,
   notFoundComponent: () => {
     return (
@@ -43,20 +27,6 @@ export const Route = createRootRoute({
     );
   },
 });
-
-function RootShell({ children }: { children: React.ReactNode }) {
-  return (
-    <html lang="ru">
-      <head>
-        <HeadContent />
-      </head>
-      <body>
-        {children}
-        <Scripts />
-      </body>
-    </html>
-  );
-}
 
 function RootComponent() {
   return (
