@@ -1,5 +1,5 @@
 {
-  "name": "focusup-root",
+  "name": "vela-root",
   "private": true,
   "scripts": {
     "build": "npm install --prefix frontend && npm run build --prefix frontend",
