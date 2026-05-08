@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
 import { Goal, FocusSession, Distraction, Habit } from "../lib/types";
 
-const GOALS_KEY = "focusup_goals";
-const SESSIONS_KEY = "focusup_sessions";
-const DISTRACTIONS_KEY = "focusup_distractions";
-const STREAK_KEY = "focusup_streak_data";
-const HABITS_KEY = "focusup_habits";
+const GOALS_KEY = "vela_goals";
+const SESSIONS_KEY = "vela_sessions";
+const DISTRACTIONS_KEY = "vela_distractions";
+const STREAK_KEY = "vela_streak_data";
+const HABITS_KEY = "vela_habits";
 
 interface StreakData {
   count: number;
@@ -61,7 +61,7 @@ export function useFocusStore() {
       const savedStreak = localStorage.getItem(STREAK_KEY);
       if (savedStreak) setStreak(JSON.parse(savedStreak));
 
-      const savedUser = localStorage.getItem("focusup_user");
+      const savedUser = localStorage.getItem("vela_user");
       if (savedUser) setUser(JSON.parse(savedUser));
 
       const savedHabits = localStorage.getItem(HABITS_KEY);
@@ -89,7 +89,7 @@ export function useFocusStore() {
   }, [streak, isLoaded]);
 
   useEffect(() => {
-    if (isLoaded) localStorage.setItem("focusup_user", JSON.stringify(user));
+    if (isLoaded) localStorage.setItem("vela_user", JSON.stringify(user));
   }, [user, isLoaded]);
 
   useEffect(() => {

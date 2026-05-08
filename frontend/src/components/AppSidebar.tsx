@@ -51,7 +51,7 @@ export function AppSidebar() {
           </div>
           {!collapsed && (
             <div className="flex flex-col">
-              <span className="font-semibold tracking-tight">FocusAI</span>
+              <span className="font-semibold tracking-tight">Vela</span>
               <span className="text-[10px] text-muted-foreground leading-tight">Stop scrolling. Start becoming.</span>
             </div>
           )}

@@ -88,7 +88,7 @@ export default function LandingPage() {
                 <span className="text-[var(--lp-blue-primary)]">
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2a2 2 0 0 1 2 2c0 .74-.4 1.39-1 1.73V7h1a7 7 0 0 1 7 7h1a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v1a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-1H2a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h1a7 7 0 0 1 7-7h1V5.73c-.6-.34-1-.99-1-1.73a2 2 0 0 1 2-2M7.5 13A2.5 2.5 0 0 0 5 15.5A2.5 2.5 0 0 0 7.5 18a2.5 2.5 0 0 0 2.5-2.5A2.5 2.5 0 0 0 7.5 13m9 0a2.5 2.5 0 0 0-2.5 2.5a2.5 2.5 0 0 0 2.5 2.5a2.5 2.5 0 0 0 2.5-2.5a2.5 2.5 0 0 0-2.5-2.5"/></svg>
                 </span>
-                AI Chat
+                Chat
               </a>
               <a href="#timer" className="text-lg font-medium p-3 rounded-xl hover:bg-gray-50 dark:hover:bg-slate-800 transition-colors flex items-center gap-3">
                 <span className="text-[var(--lp-blue-primary)]">
@@ -126,8 +126,7 @@ export default function LandingPage() {
       <nav className="sticky top-0 z-50 bg-[var(--lp-nav-bg)] backdrop-blur-md border-b !border-[var(--lp-border)]">
         <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
           <div className="flex items-start">
-            <span className="font-serif text-2xl tracking-tight leading-none pt-1 dark:text-white">FocusUp</span>
-            <sup className="text-[var(--lp-cyan-accent)] font-semibold text-xs ml-[2px]">AI</sup>
+            <span className="font-serif text-2xl tracking-tight leading-none pt-1 dark:text-white">Vela</span>
           </div>
           <div className="flex items-center gap-2 md:gap-4">
             
@@ -147,7 +146,7 @@ export default function LandingPage() {
         <section className="relative px-6 py-[60px] md:py-[100px] max-w-7xl mx-auto flex flex-col items-center text-center">
           <Reveal>
             <p className="uppercase tracking-widest text-xs font-bold !text-[var(--lp-blue-primary)] dark:!text-[var(--lp-cyan-accent)] mb-4">
-              AI-powered focus for students
+              Focus for students
             </p>
           </Reveal>
           
@@ -161,7 +160,7 @@ export default function LandingPage() {
           
           <Reveal delay={200}>
             <p className="text-lg md:text-xl max-w-2xl text-gray-700 dark:text-white mb-10 leading-relaxed mx-auto">
-              FocusUp AI learns when you procrastinate and nudges you back — with zero guilt.
+              Vela learns when you procrastinate and nudges you back — with zero guilt.
             </p>
           </Reveal>
           
@@ -217,7 +216,7 @@ export default function LandingPage() {
         {/* 4. How it works */}
         <section id="how" className="px-6 py-[120px] max-w-3xl mx-auto">
           <Reveal>
-            <h2 className="font-serif text-4xl md:text-5xl text-center mb-24">What FocusUp AI does</h2>
+            <h2 className="font-serif text-4xl md:text-5xl text-center mb-24">What Vela does</h2>
           </Reveal>
           
           <div className="flex flex-col gap-16">
@@ -242,7 +241,7 @@ export default function LandingPage() {
               <h3 className="text-xl font-semibold mb-3">
                 <span className="!text-[var(--lp-cyan-accent)] mr-2">03</span>Smart Start
               </h3>
-              <p className="text-gray-600 dark:text-gray-100 text-lg leading-relaxed">when you're stuck, AI breaks the task into micro-steps so starting feels easy</p>
+              <p className="text-gray-600 dark:text-gray-100 text-lg leading-relaxed">when you're stuck, the task is broken into micro-steps so starting feels easy</p>
             </Reveal>
           </div>
         </section>
@@ -267,7 +266,7 @@ export default function LandingPage() {
                 <span className="mr-2 text-[var(--lp-blue-primary)]">
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2a2 2 0 0 1 2 2c0 .74-.4 1.39-1 1.73V7h1a7 7 0 0 1 7 7h1a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v1a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-1H2a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h1a7 7 0 0 1 7-7h1V5.73c-.6-.34-1-.99-1-1.73a2 2 0 0 1 2-2M7.5 13A2.5 2.5 0 0 0 5 15.5A2.5 2.5 0 0 0 7.5 18a2.5 2.5 0 0 0 2.5-2.5A2.5 2.5 0 0 0 7.5 13m9 0a2.5 2.5 0 0 0-2.5 2.5a2.5 2.5 0 0 0 2.5 2.5a2.5 2.5 0 0 0 2.5-2.5a2.5 2.5 0 0 0-2.5-2.5"/></svg>
                 </span> 
-                AI Chat Assistant
+                Chat Assistant
               </div>
               <div className="px-5 py-3 bg-white dark:bg-slate-900 border !border-[var(--lp-border)] rounded-full text-sm font-medium flex items-center shadow-sm">
                 <span className="mr-2 text-[var(--lp-blue-primary)]">
@@ -293,7 +292,7 @@ export default function LandingPage() {
             <Reveal>
               <h2 className="font-serif text-3xl md:text-4xl mb-4">Help us improve</h2>
               <p className="text-gray-600 dark:text-gray-300 mb-10 max-w-lg mx-auto">
-                What features would you like to see? How can we make FocusUp more helpful for your studies?
+                What features would you like to see? How can we make Vela more helpful for your studies?
               </p>
               <div className="max-w-xl mx-auto flex flex-col gap-4">
                 <textarea 
@@ -318,14 +317,13 @@ export default function LandingPage() {
           {/* Brand & Conclusion */}
           <div className="flex flex-col items-center text-center space-y-6">
             <div className="flex items-start">
-              <span className="font-serif text-2xl tracking-tight leading-none">FocusUp</span>
-              <sup className="text-[var(--lp-cyan-accent)] font-semibold text-xs ml-[1px]">AI</sup>
+              <span className="font-serif text-2xl tracking-tight leading-none">Vela</span>
             </div>
             <p className="text-gray-600 dark:text-gray-400 leading-relaxed max-w-xs">
-              FocusUp is an AI-powered ecosystem designed to help students reclaim their focus. By leveraging intelligent nudges and behavioral analytics, we turn procrastination into productivity.
+              Vela is an ecosystem designed to help students reclaim their focus. By leveraging intelligent nudges and behavioral analytics, we turn procrastination into productivity.
             </p>
             <div className="text-sm text-gray-500">
-              &copy; 2025 FocusUp AI.
+              &copy; 2025 Vela.
             </div>
           </div>
 
@@ -334,8 +332,8 @@ export default function LandingPage() {
             <h3 className="text-sm uppercase tracking-widest font-bold text-[var(--lp-text-primary)]">Contact Us</h3>
             <div className="space-y-2">
               <p className="text-xs text-gray-500 uppercase tracking-wider">Email</p>
-              <a href="mailto:focusup.ai@gmail.com" className="text-xl font-medium hover:text-[var(--lp-blue-primary)] transition-colors">
-                focusup.ai@gmail.com
+              <a href="mailto:vela.ai@gmail.com" className="text-xl font-medium hover:text-[var(--lp-blue-primary)] transition-colors">
+                vela.ai@gmail.com
               </a>
             </div>
           </div>

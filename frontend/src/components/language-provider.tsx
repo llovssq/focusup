@@ -12,12 +12,12 @@ const LanguageContext = createContext<LanguageContextType | undefined>(undefined
 export function LanguageProvider({ children }: { children: React.ReactNode }) {
   const [language, setLanguage] = useState<Language>(() => {
     if (typeof window === "undefined") return "ru";
-    const saved = localStorage.getItem("focusup_lang");
+    const saved = localStorage.getItem("vela_lang");
     return (saved as Language) || "ru";
   });
 
   useEffect(() => {
-    localStorage.setItem("focusup_lang", language);
+    localStorage.setItem("vela_lang", language);
     document.documentElement.lang = language;
   }, [language]);
 

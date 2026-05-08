@@ -127,7 +127,7 @@ function RegisterPage() {
             }}
           />
 
-          {/* TOP LEFT — Logo, font matches landing "FocusUp" wordmark style */}
+          {/* TOP LEFT — Logo, font matches landing "Vela" wordmark style */}
           <div
             style={{
               position: "absolute",
@@ -141,8 +141,7 @@ function RegisterPage() {
               color: "white",
             }}
           >
-            FocusUp
-            <sup style={{ color: "var(--lp-cyan-accent)", fontSize: "0.5em", marginLeft: 2 }}>AI</sup>
+            Vela
           </div>
 
           {/* TOP RIGHT — Back button: matches landing pill nav buttons */}

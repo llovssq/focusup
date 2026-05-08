@@ -117,8 +117,7 @@ function LoginPage() {
               color: "white",
             }}
           >
-            FocusUp
-            <sup style={{ color: "var(--lp-cyan-accent)", fontSize: "0.5em", marginLeft: 2 }}>AI</sup>
+            Vela
           </div>
 
           <Link

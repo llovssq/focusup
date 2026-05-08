@@ -15,7 +15,7 @@ export const Route = createFileRoute("/_app/coach")({
 interface Msg { role: "user" | "ai"; content: string }
 
 const initialMsgs: Msg[] = [
-  { role: "ai", content: "Привет! 👋 Я твой AI-коуч. Я здесь, чтобы помочь тебе с продуктивностью и фокусом. О чем хочешь поговорить?" },
+  { role: "ai", content: "Привет! 👋 Я твой коуч. Я здесь, чтобы помочь тебе с продуктивностью и фокусом. О чем хочешь поговорить?" },
 ];
 
 function CoachPage() {
@@ -71,7 +71,7 @@ function CoachPage() {
       <div className="mb-4 flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold tracking-tight flex items-center gap-2">
-            AI-коуч <Sparkles className="h-6 w-6 text-accent" />
+            Коуч <Sparkles className="h-6 w-6 text-accent" />
           </h1>
           <p className="text-muted-foreground mt-1">
             Персональный наставник, который помогает сохранять фокус и достигать целей
@@ -92,7 +92,7 @@ function CoachPage() {
               <Bot className="h-5 w-5 text-primary-foreground" />
             </div>
             <div>
-              <div className="font-semibold">FocusAI Coach</div>
+              <div className="font-semibold">Vela Coach</div>
               <div className="text-xs text-success flex items-center gap-1">
                 <span className="h-2 w-2 rounded-full bg-success" /> Онлайн
               </div>

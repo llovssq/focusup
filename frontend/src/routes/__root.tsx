@@ -30,7 +30,7 @@ export const Route = createRootRoute({
 
 function RootComponent() {
   return (
-    <ThemeProvider defaultTheme="dark" storageKey="focusup-theme">
+    <ThemeProvider defaultTheme="dark" storageKey="vela-theme">
       <LanguageProvider>
         <Outlet />
         <Analytics />
