@@ -5,8 +5,8 @@ import { toast } from "sonner";
 import { supabase } from "../lib/supabase";
 import "../landing/landing.css";
 
-export const Route = createFileRoute("/register")({
-  component: RegisterPage,
+export const Route = createFileRoute("/login")({
+  component: LoginPage,
 });
 
 const IMAGES = [
@@ -15,7 +15,7 @@ const IMAGES = [
   "https://images.unsplash.com/photo-1517048676732-d65bc937f952?w=1200&auto=format&fit=crop",
 ];
 
-function RegisterPage() {
+function LoginPage() {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   useEffect(() => {
@@ -26,37 +26,24 @@ function RegisterPage() {
   }, []);
 
   const [showPassword, setShowPassword] = useState(false);
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [agreed, setAgreed] = useState(true);
   const [loading, setLoading] = useState(false);
 
-  const handleRegister = async (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!agreed) {
-      toast.error("You must agree to the Terms & Conditions.");
-      return;
-    }
-    
     setLoading(true);
-    const { data, error } = await supabase.auth.signUp({
+    const { error } = await supabase.auth.signInWithPassword({
       email,
       password,
-      options: {
-        data: {
-          first_name: firstName,
-          last_name: lastName,
-        },
-      },
     });
     setLoading(false);
 
     if (error) {
       toast.error(error.message);
     } else {
-      toast.success("Registration successful! Please check your email to verify your account.");
+      toast.success("Welcome back!");
+      window.location.href = "/dashboard";
     }
   };
 
@@ -73,13 +60,8 @@ function RegisterPage() {
     }
   };
 
-  const handleAppleLogin = () => {
-    toast.info("Apple login is coming soon!");
-  };
-
   return (
     <div className="dark" style={{ colorScheme: "dark" }}>
-      {/* Scoped styles — placeholder color and autofill override */}
       <style>{`
         .reg-input::placeholder { color: oklch(0.55 0.02 260); }
         .reg-input:-webkit-autofill,
@@ -88,20 +70,16 @@ function RegisterPage() {
           -webkit-text-fill-color: oklch(0.97 0.005 260) !important;
         }
       `}</style>
-      {/* ── PAGE SHELL ── */}
       <div
         style={{
           display: "flex",
           width: "100vw",
           height: "100vh",
           overflow: "hidden",
-          background: "oklch(0.13 0.022 265)", // --sidebar (darkest bg)
+          background: "oklch(0.13 0.022 265)",
           fontFamily: "'Plus Jakarta Sans', 'Outfit', sans-serif",
         }}
       >
-        {/* ══════════════════════════════════════════
-            LEFT PANEL — image + overlay
-        ══════════════════════════════════════════ */}
         <div
           style={{
             width: "45%",
@@ -117,7 +95,6 @@ function RegisterPage() {
             transition: "background-image 0.8s ease-in-out",
           }}
         >
-          {/* Gradient overlay — matches landing card: bg-black/70 */}
           <div
             style={{
               position: "absolute",
@@ -127,7 +104,6 @@ function RegisterPage() {
             }}
           />
 
-          {/* TOP LEFT — Logo, font matches landing "FocusUp" wordmark style */}
           <div
             style={{
               position: "absolute",
@@ -145,7 +121,6 @@ function RegisterPage() {
             <sup style={{ color: "var(--lp-cyan-accent)", fontSize: "0.5em", marginLeft: 2 }}>AI</sup>
           </div>
 
-          {/* TOP RIGHT — Back button: matches landing pill nav buttons */}
           <Link
             to="/"
             style={{
@@ -166,19 +141,10 @@ function RegisterPage() {
               cursor: "pointer",
               transition: "background 0.2s",
             }}
-            onMouseEnter={(e) =>
-              ((e.currentTarget as HTMLAnchorElement).style.background =
-                "rgba(255,255,255,0.22)")
-            }
-            onMouseLeave={(e) =>
-              ((e.currentTarget as HTMLAnchorElement).style.background =
-                "rgba(255,255,255,0.12)")
-            }
           >
             Back to website →
           </Link>
 
-          {/* BOTTOM LEFT — Tagline */}
           <div
             style={{
               position: "absolute",
@@ -197,7 +163,6 @@ function RegisterPage() {
             Creating Memories
           </div>
 
-          {/* BOTTOM CENTER — Slider dots */}
           <div
             style={{
               position: "absolute",
@@ -230,9 +195,6 @@ function RegisterPage() {
           </div>
         </div>
 
-        {/* ══════════════════════════════════════════
-            RIGHT PANEL — form
-        ══════════════════════════════════════════ */}
         <div
           style={{
             flex: 1,
@@ -240,35 +202,33 @@ function RegisterPage() {
             flexDirection: "column",
             justifyContent: "center",
             padding: "60px 72px",
-            background: "oklch(0.15 0.025 265)", // --background dark
+            background: "oklch(0.15 0.025 265)",
             overflowY: "auto",
           }}
         >
-          {/* Heading — matches landing h2 rhythm */}
           <h1
             style={{
               fontFamily: "ui-serif, Georgia, Cambria, 'Times New Roman', Times, serif",
               fontSize: 36,
               fontWeight: 700,
-              color: "oklch(0.97 0.005 260)", // --foreground dark
+              color: "oklch(0.97 0.005 260)",
               marginBottom: 10,
               lineHeight: 1.15,
             }}
           >
-            Create an account
+            Welcome back
           </h1>
 
-          {/* Subtext — matches landing body text style */}
           <p
             style={{
               fontSize: 14,
-              color: "oklch(0.68 0.02 260)", // --muted-foreground dark
+              color: "oklch(0.68 0.02 260)",
               fontFamily: "'Plus Jakarta Sans', sans-serif",
             }}
           >
-            Already have an account?{" "}
+            Don't have an account?{" "}
             <Link
-              to="/login"
+              to="/register"
               style={{
                 color: "var(--lp-blue-primary)",
                 textDecoration: "underline",
@@ -276,13 +236,12 @@ function RegisterPage() {
                 transition: "opacity 0.2s",
               }}
             >
-              Log in
+              Sign up
             </Link>
           </p>
 
-          {/* ── FORM ── */}
           <form
-            onSubmit={handleRegister}
+            onSubmit={handleLogin}
             style={{
               display: "flex",
               flexDirection: "column",
@@ -290,35 +249,17 @@ function RegisterPage() {
               marginTop: 28,
             }}
           >
-            {/* Row 1: First + Last name */}
-            <div style={{ display: "flex", gap: 12 }}>
-              <InputField
-                id="reg-first-name"
-                placeholder="First name"
-                value={firstName}
-                onChange={setFirstName}
-              />
-              <InputField
-                id="reg-last-name"
-                placeholder="Last name"
-                value={lastName}
-                onChange={setLastName}
-              />
-            </div>
-
-            {/* Row 2: Email */}
             <InputField
-              id="reg-email"
+              id="login-email"
               type="email"
               placeholder="Email"
               value={email}
               onChange={setEmail}
             />
 
-            {/* Row 3: Password with eye toggle */}
             <div style={{ position: "relative" }}>
               <InputField
-                id="reg-password"
+                id="login-password"
                 type={showPassword ? "text" : "password"}
                 placeholder="Enter your password"
                 value={password}
@@ -328,7 +269,6 @@ function RegisterPage() {
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                aria-label="Toggle password visibility"
                 style={{
                   position: "absolute",
                   right: 14,
@@ -337,94 +277,18 @@ function RegisterPage() {
                   background: "none",
                   border: "none",
                   cursor: "pointer",
-                  color: "oklch(0.68 0.02 260)", // --muted-foreground
+                  color: "oklch(0.68 0.02 260)",
                   display: "flex",
                   alignItems: "center",
                   padding: 0,
-                  transition: "color 0.2s",
                 }}
-                onMouseEnter={(e) =>
-                  ((e.currentTarget as HTMLButtonElement).style.color =
-                    "oklch(0.97 0.005 260)")
-                }
-                onMouseLeave={(e) =>
-                  ((e.currentTarget as HTMLButtonElement).style.color =
-                    "oklch(0.68 0.02 260)")
-                }
               >
                 {showPassword ? <EyeOff size={17} /> : <Eye size={17} />}
               </button>
             </div>
 
-            {/* Checkbox — matches landing's checked primary color */}
-            <label
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: 10,
-                fontSize: 13,
-                color: "oklch(0.68 0.02 260)",
-                fontFamily: "'Plus Jakarta Sans', sans-serif",
-                cursor: "pointer",
-              }}
-            >
-              <input
-                id="reg-terms"
-                type="checkbox"
-                checked={agreed}
-                onChange={(e) => setAgreed(e.target.checked)}
-                style={{ display: "none" }}
-              />
-              {/* Custom checkbox */}
-              <div
-                style={{
-                  width: 18,
-                  height: 18,
-                  borderRadius: 5,
-                  border: `2px solid ${agreed ? "var(--lp-blue-primary)" : "oklch(0.28 0.03 265)"}`,
-                  background: agreed
-                    ? "var(--lp-blue-primary)"
-                    : "oklch(0.19 0.028 265)",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  flexShrink: 0,
-                  transition: "background 0.2s, border-color 0.2s",
-                }}
-              >
-                {agreed && (
-                  <svg
-                    width="10"
-                    height="10"
-                    viewBox="0 0 10 10"
-                    fill="none"
-                  >
-                    <path
-                      d="M1.5 5L4 7.5L8.5 2.5"
-                      stroke="white"
-                      strokeWidth="1.8"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
-                )}
-              </div>
-              I agree to the{" "}
-              <a
-                href="#"
-                style={{
-                  color: "var(--lp-blue-primary)",
-                  textDecoration: "underline",
-                  textUnderlineOffset: 2,
-                }}
-              >
-                Terms &amp; Conditions
-              </a>
-            </label>
-
-            {/* PRIMARY BUTTON — identical to landing "Get Started" pill button pattern but full-width block */}
             <button
-              id="reg-submit"
+              id="login-submit"
               type="submit"
               disabled={loading}
               style={{
@@ -432,7 +296,7 @@ function RegisterPage() {
                 padding: "15px",
                 background: loading ? "oklch(0.28 0.03 265)" : "var(--lp-blue-primary)",
                 border: "none",
-                borderRadius: "calc(0.75rem + 4px)", // --radius-xl
+                borderRadius: "calc(0.75rem + 4px)",
                 color: "white",
                 fontSize: 15,
                 fontWeight: 600,
@@ -440,24 +304,12 @@ function RegisterPage() {
                 cursor: loading ? "not-allowed" : "pointer",
                 transition: "opacity 0.2s, box-shadow 0.2s",
                 boxShadow: loading ? "none" : "0 4px 24px var(--lp-blue-primary)",
-              }}
-              onMouseEnter={(e) => {
-                if (loading) return;
-                (e.currentTarget as HTMLButtonElement).style.opacity = "0.88";
-                (e.currentTarget as HTMLButtonElement).style.boxShadow =
-                  "0 4px 32px var(--lp-blue-primary)";
-              }}
-              onMouseLeave={(e) => {
-                if (loading) return;
-                (e.currentTarget as HTMLButtonElement).style.opacity = "1";
-                (e.currentTarget as HTMLButtonElement).style.boxShadow =
-                  "0 4px 24px var(--lp-blue-primary)";
+                marginTop: 10,
               }}
             >
-              {loading ? "Creating account..." : "Create account"}
+              {loading ? "Logging in..." : "Log in"}
             </button>
 
-            {/* DIVIDER — matches landing's --border dark */}
             <div
               style={{
                 display: "flex",
@@ -466,6 +318,7 @@ function RegisterPage() {
                 fontSize: 13,
                 color: "oklch(0.68 0.02 260)",
                 fontFamily: "'Plus Jakarta Sans', sans-serif",
+                marginTop: 10,
               }}
             >
               <div
@@ -475,7 +328,7 @@ function RegisterPage() {
                   background: "oklch(0.28 0.03 265)",
                 }}
               />
-              Or register with
+              Or login with
               <div
                 style={{
                   flex: 1,
@@ -485,14 +338,12 @@ function RegisterPage() {
               />
             </div>
 
-            {/* SOCIAL BUTTONS — matches landing ghost pill button: bg-white/[0.05] rounded-full hover:bg-[--lp-blue-primary] */}
             <div style={{ display: "flex", justifyContent: "center" }}>
               <SocialButton 
-                id="reg-google" 
+                id="login-google" 
                 label="Google"
                 onClick={handleGoogleLogin}
               >
-                {/* Google colour logo */}
                 <svg width="18" height="18" viewBox="0 0 48 48" fill="none">
                   <path
                     fill="#4285F4"
@@ -520,7 +371,6 @@ function RegisterPage() {
   );
 }
 
-/* ── Shared Input component — matches landing input style: dark bg, border-[--border], rounded-xl, focus ring --primary ── */
 function InputField({
   id,
   type = "text",
@@ -551,12 +401,12 @@ function InputField({
       style={{
         flex: 1,
         width: "100%",
-        background: "oklch(0.19 0.028 265)", // --card dark
-        border: `1px solid ${focused ? "var(--lp-blue-primary)" : "oklch(0.28 0.03 265)"}`, // --border dark / --primary
-        borderRadius: "calc(0.75rem + 4px)", // --radius-xl = 16px
+        background: "oklch(0.19 0.028 265)",
+        border: `1px solid ${focused ? "var(--lp-blue-primary)" : "oklch(0.28 0.03 265)"}`,
+        borderRadius: "calc(0.75rem + 4px)",
         padding: "14px 16px",
         paddingRight: paddingRight ?? 16,
-        color: "oklch(0.97 0.005 260)", // --foreground dark
+        color: "oklch(0.97 0.005 260)",
         fontSize: 14,
         fontFamily: "'Plus Jakarta Sans', sans-serif",
         outline: "none",
@@ -569,7 +419,6 @@ function InputField({
   );
 }
 
-/* ── Social Button — matches landing ghost buttons: bg-white/[0.05] border border-[--lp-border] rounded-full ── */
 function SocialButton({
   id,
   label,
@@ -592,16 +441,17 @@ function SocialButton({
       onMouseLeave={() => setHovered(false)}
       style={{
         width: "100%",
+        maxWidth: "400px",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
         gap: 10,
         padding: "13px",
         background: hovered
-          ? "oklch(0.22 0.03 265)" // --sidebar-accent hover
-          : "oklch(0.19 0.028 265)", // --card dark
+          ? "oklch(0.22 0.03 265)"
+          : "oklch(0.19 0.028 265)",
         border: `1px solid ${hovered ? "var(--lp-blue-primary)" : "oklch(0.28 0.03 265)"}`,
-        borderRadius: "calc(0.75rem + 4px)", // --radius-xl
+        borderRadius: "calc(0.75rem + 4px)",
         color: "oklch(0.97 0.005 260)",
         fontSize: 14,
         fontWeight: 500,
