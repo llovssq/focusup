@@ -29,10 +29,20 @@ import { useTheme } from "./theme-provider";
 import { useLanguage } from "./language-provider";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
+import { supabase } from "@/lib/supabase";
 
 export function UserMenu() {
   const { theme, setTheme } = useTheme();
   const { language, setLanguage, t } = useLanguage();
+
+  const handleLogout = async () => {
+    const { error } = await supabase.auth.signOut();
+    if (error) {
+      toast.error(error.message);
+    } else {
+      toast.success(t("logout"));
+    }
+  };
 
   return (
     <DropdownMenu>
@@ -129,7 +139,7 @@ export function UserMenu() {
         
         <DropdownMenuItem 
           className="flex items-center gap-2 px-3 py-2.5 rounded-xl cursor-pointer text-destructive focus:text-destructive focus:bg-destructive/10"
-          onClick={() => toast.success(t("logout"))}
+          onClick={handleLogout}
         >
           <LogOut className="h-4 w-4" />
           <span>{t("logout")}</span>

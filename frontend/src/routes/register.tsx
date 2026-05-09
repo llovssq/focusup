@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
 import { Eye, EyeOff } from "lucide-react";
 import { toast } from "sonner";
@@ -16,6 +16,7 @@ const IMAGES = [
 ];
 
 function RegisterPage() {
+  const navigate = useNavigate();
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   useEffect(() => {
@@ -40,6 +41,11 @@ function RegisterPage() {
       return;
     }
     
+    if (!email || !password) {
+      toast.error("Please fill in all required fields.");
+      return;
+    }
+    
     setLoading(true);
     const { data, error } = await supabase.auth.signUp({
       email,
@@ -57,6 +63,9 @@ function RegisterPage() {
       toast.error(error.message);
     } else {
       toast.success("Registration successful! Please check your email to verify your account.");
+      if (data.session) {
+        navigate({ to: "/dashboard" });
+      }
     }
   };
 

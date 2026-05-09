@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
 import { Eye, EyeOff } from "lucide-react";
 import { toast } from "sonner";
@@ -16,6 +16,7 @@ const IMAGES = [
 ];
 
 function LoginPage() {
+  const navigate = useNavigate();
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   useEffect(() => {
@@ -32,18 +33,34 @@ function LoginPage() {
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
+    console.log("Login attempt started", { email });
+    
+    if (!email || !password) {
+      toast.error("Please enter both email and password.");
+      return;
+    }
+    
     setLoading(true);
-    const { error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
-    setLoading(false);
-
-    if (error) {
-      toast.error(error.message);
-    } else {
-      toast.success("Welcome back!");
-      window.location.href = "/dashboard";
+    try {
+      const { error, data } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+      
+      if (error) {
+        console.error("Login error:", error);
+        toast.error(error.message);
+        setLoading(false);
+      } else {
+        console.log("Login success:", data);
+        toast.success("Welcome back!");
+        // We don't set loading false here because we're navigating
+        navigate({ to: "/dashboard" });
+      }
+    } catch (err) {
+      console.error("Unexpected error during login:", err);
+      toast.error("An unexpected error occurred.");
+      setLoading(false);
     }
   };
 

@@ -1,4 +1,4 @@
-import { createFileRoute, Outlet } from "@tanstack/react-router";
+import { createFileRoute, Outlet, useNavigate } from "@tanstack/react-router";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/AppSidebar";
 import { Search } from "lucide-react";
@@ -6,9 +6,10 @@ import { FireIcon } from "@/components/FireIcon";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { UserMenu } from "@/components/UserMenu";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useFocusStore } from "@/hooks/use-focus-store";
 import { StreakModal } from "@/components/StreakModal";
+import { supabase } from "@/lib/supabase";
 
 export const Route = createFileRoute("/_app")({
   component: AppLayout,
@@ -17,6 +18,40 @@ export const Route = createFileRoute("/_app")({
 function AppLayout() {
   const [isStreakOpen, setIsStreakOpen] = useState(false);
   const { streak } = useFocusStore();
+  const navigate = useNavigate();
+  const [session, setSession] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    // Check initial session
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setSession(session);
+      setLoading(false);
+      if (!session) {
+        navigate({ to: "/login" });
+      }
+    });
+
+    // Listen for auth changes
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setSession(session);
+      if (!session) {
+        navigate({ to: "/login" });
+      }
+    });
+
+    return () => subscription.unsubscribe();
+  }, [navigate]);
+
+  if (loading) {
+    return (
+      <div className="h-screen w-screen flex items-center justify-center bg-background">
+        <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-primary"></div>
+      </div>
+    );
+  }
+
+  if (!session) return null;
 
   return (
     <SidebarProvider>

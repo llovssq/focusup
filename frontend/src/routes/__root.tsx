@@ -4,6 +4,7 @@ import { LanguageProvider } from "@/components/language-provider";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/react";
 import { Button } from "@/components/ui/button";
+import { Toaster } from "@/components/ui/sonner";
 
 export const Route = createRootRoute({
   component: RootComponent,
@@ -33,6 +34,7 @@ function RootComponent() {
     <ThemeProvider defaultTheme="dark" storageKey="vela-theme">
       <LanguageProvider>
         <Outlet />
+        <Toaster position="top-center" expand={true} richColors />
         <Analytics />
         <SpeedInsights />
       </LanguageProvider>
