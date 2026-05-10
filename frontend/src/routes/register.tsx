@@ -48,8 +48,8 @@ function RegisterPage() {
     
     setLoading(true);
     const { data, error } = await supabase.auth.signUp({
-      email,
-      password,
+      email: email.trim(),
+      password: password.trim(),
       options: {
         data: {
           first_name: firstName,
