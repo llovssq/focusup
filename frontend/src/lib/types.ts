@@ -28,9 +28,3 @@ export interface FocusSession {
   duration: number; // in seconds
 }
 
-export interface Distraction {
-  id: string;
-  name: string;
-  minutes: number;
-  color: string;
-}

@@ -9,6 +9,7 @@ import { useState, useEffect } from "react";
 import { StreakModal } from "@/components/StreakModal";
 import { useLanguage } from "@/components/language-provider";
 import { TasksCompletedModal, FocusHoursModal, ConcentrationModal } from "@/components/DashboardModals";
+import { UsersCard } from "@/components/UsersCard";
 
 export const Route = createFileRoute("/_app/dashboard")({
   component: Dashboard,
@@ -94,6 +95,9 @@ function Dashboard() {
         </div>
         <div className="lg:col-span-2">
           <TaskList />
+        </div>
+        <div className="lg:col-span-1">
+          <UsersCard />
         </div>
       </div>
 
