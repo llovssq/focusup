@@ -7,6 +7,7 @@ import { DistractionsCard } from "@/components/DistractionsCard";
 import { Target, Timer, TrendingUp, Flame } from "lucide-react";
 import { useFocusStore } from "@/hooks/use-focus-store";
 import { useMemo } from "react";
+import { useLanguage } from "@/components/language-provider";
 
 export const Route = createFileRoute("/_app/stats")({
   component: StatsPage,
@@ -14,55 +15,50 @@ export const Route = createFileRoute("/_app/stats")({
 
 function StatsPage() {
   const { goals, sessions } = useFocusStore();
+  const { t, language } = useLanguage();
 
   const stats = useMemo(() => {
     const totalTasks = goals.reduce((acc, g) => acc + g.subtasks.length, 0);
     const completedTasks = goals.reduce((acc, g) => acc + g.subtasks.filter(s => s.done).length, 0);
-    
     const totalFocusSeconds = sessions.reduce((acc, s) => acc + s.duration, 0);
     const focusHours = Math.floor(totalFocusSeconds / 3600);
     const focusMinutes = Math.floor((totalFocusSeconds % 3600) / 60);
+    const avgProgress = goals.length > 0 ? Math.round(goals.reduce((acc, g) => acc + g.progress, 0) / goals.length) : 0;
 
-    const avgProgress = goals.length > 0 
-      ? Math.round(goals.reduce((acc, g) => acc + g.progress, 0) / goals.length) 
-      : 0;
-
-    // Распределение по часам (для графика)
     const hourlyData = Array.from({ length: 11 }, (_, i) => ({
       h: `${i + 8}:00`,
-      focus: Math.floor(Math.random() * 40) + 40, // Mock for now, but could be real if sessions had time of day
+      focus: Math.floor(Math.random() * 40) + 40,
     }));
 
-    // Категории (можно добавить поле category в Goal в будущем)
     const categories = [
-      { name: "Учёба", value: 45, color: "oklch(0.68 0.21 295)" },
-      { name: "Работа", value: 30, color: "oklch(0.72 0.18 200)" },
-      { name: "Личное", value: 15, color: "oklch(0.72 0.18 155)" },
-      { name: "Спорт", value: 10, color: "oklch(0.8 0.17 75)" },
+      { name: language === "ru" ? "Учёба" : "Study", value: 45, color: "oklch(0.68 0.21 295)" },
+      { name: language === "ru" ? "Работа" : "Work", value: 30, color: "oklch(0.72 0.18 200)" },
+      { name: language === "ru" ? "Личное" : "Personal", value: 15, color: "oklch(0.72 0.18 155)" },
+      { name: language === "ru" ? "Спорт" : "Sport", value: 10, color: "oklch(0.8 0.17 75)" },
     ];
 
     return {
       totalTasks,
       completedTasks,
-      focusHours: `${focusHours}ч ${focusMinutes}м`,
+      focusHours: `${focusHours}${t("hour")} ${focusMinutes}${t("min")}`,
       avgProgress: `${avgProgress}%`,
       hourlyData,
       categories
     };
-  }, [goals, sessions]);
+  }, [goals, sessions, language]);
 
   return (
     <div className="p-6 max-w-7xl mx-auto space-y-6">
       <div>
-        <h1 className="text-3xl font-bold tracking-tight">Статистика продуктивности</h1>
-        <p className="text-muted-foreground mt-1">Анализ твоих привычек и прогресса от AI</p>
+        <h1 className="text-3xl font-bold tracking-tight">{t("stats_title")}</h1>
+        <p className="text-muted-foreground mt-1">{t("stats_subtitle")}</p>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <StatCard title="Всего задач" value={stats.totalTasks.toString()} change={`${stats.completedTasks} выполнено`} icon={Target} accent="primary" />
-        <StatCard title="Часов в фокусе" value={stats.focusHours} change="На этой неделе" icon={Timer} accent="accent" />
-        <StatCard title="Средний прогресс" value={stats.avgProgress} change="+2% сегодня" icon={TrendingUp} accent="success" />
-        <StatCard title="Макс. серия" value="3 дня" change="Растем!" icon={Flame} accent="warning" />
+        <StatCard title={language === "ru" ? "Всего задач" : "Total Tasks"} value={stats.totalTasks.toString()} change={language === "ru" ? `${stats.completedTasks} выполнено` : `${stats.completedTasks} completed`} icon={Target} accent="primary" />
+        <StatCard title={language === "ru" ? "Часов в фокусе" : "Focus Hours"} value={stats.focusHours} change={language === "ru" ? "На этой неделе" : "This week"} icon={Timer} accent="accent" />
+        <StatCard title={language === "ru" ? "Средний прогресс" : "Avg Progress"} value={stats.avgProgress} change={language === "ru" ? "+2% сегодня" : "+2% today"} icon={TrendingUp} accent="success" />
+        <StatCard title={language === "ru" ? "Макс. серия" : "Best Streak"} value={language === "ru" ? "3 дня" : "3 days"} change={language === "ru" ? "Растем!" : "Growing!"} icon={Flame} accent="warning" />
       </div>
 
       <ProductivityChart />
@@ -70,8 +66,8 @@ function StatsPage() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <Card className="p-5 bg-card border-border/60 shadow-card">
           <div className="mb-4">
-            <h3 className="font-semibold">Концентрация по часам</h3>
-            <p className="text-xs text-muted-foreground">Средний уровень фокуса по времени суток</p>
+            <h3 className="font-semibold">{language === "ru" ? "Концентрация по часам" : "Focus by Hour"}</h3>
+            <p className="text-xs text-muted-foreground">{language === "ru" ? "Средний уровень фокуса" : "Average focus level"}</p>
           </div>
           <ResponsiveContainer width="100%" height={240}>
             <BarChart data={stats.hourlyData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
@@ -92,8 +88,8 @@ function StatsPage() {
 
         <Card className="p-5 bg-card border-border/60 shadow-card">
           <div className="mb-4">
-            <h3 className="font-semibold">Распределение по категориям</h3>
-            <p className="text-xs text-muted-foreground">Где ты проводишь время</p>
+            <h3 className="font-semibold">{language === "ru" ? "Распределение" : "Distribution"}</h3>
+            <p className="text-xs text-muted-foreground">{language === "ru" ? "Категории времени" : "Time categories"}</p>
           </div>
           <div className="flex items-center gap-6">
             <ResponsiveContainer width="60%" height={220}>
@@ -124,7 +120,6 @@ function StatsPage() {
           </div>
         </Card>
       </div>
-
       <DistractionsCard />
     </div>
   );

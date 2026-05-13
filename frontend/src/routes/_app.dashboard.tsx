@@ -31,14 +31,14 @@ function Dashboard() {
   if (!mounted) return null;
 
   return (
-    <div className="p-6 max-w-7xl mx-auto space-y-6">
+    <div className="p-4 sm:p-6 max-w-7xl mx-auto space-y-6">
       {/* Header */}
       <div className="flex items-center justify-between flex-wrap gap-4">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">
+          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">
             {t("greeting")}, <span className="text-gradient">{user.name}</span>
           </h1>
-          <p className="text-muted-foreground mt-1">
+          <p className="text-xs sm:text-sm text-muted-foreground mt-1">
             {t("today_tasks", { count: 5 })}
           </p>
         </div>
@@ -53,35 +53,35 @@ function Dashboard() {
       </div>
 
       {/* Stats */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
         <StatCard 
-          title="Задач выполнено" 
+          title={t("tasks_completed")} 
           value={completedCount.toString()} 
-          change="+6 сегодня" 
+          change={t("plus_today", { count: 6 })} 
           icon={Target} 
           accent="primary" 
           onClick={() => setActiveModal("tasks")}
         />
         <StatCard 
-          title="Часов в фокусе" 
+          title={t("focus_hours")} 
           value={`${totalFocusHours}ч`} 
-          change="+18% к среднему" 
+          change={t("vs_avg", { count: 18 })} 
           icon={Timer} 
           accent="accent" 
           onClick={() => setActiveModal("hours")}
         />
         <StatCard 
-          title="Уровень концентрации" 
+          title={t("concentration_level")} 
           value="87%" 
-          change="Отличный результат" 
+          change={t("excellent_result")} 
           icon={TrendingUp} 
           accent="success" 
           onClick={() => setActiveModal("concentration")}
         />
         <StatCard 
-          title="Серия дней" 
+          title={t("streak_days_count")} 
           value={`${streak.count} 🔥`} 
-          change="Не прерывай!" 
+          change={t("streak_keep")} 
           icon={FireIcon} 
           accent="warning" 
           onClick={() => setActiveModal("streak")}

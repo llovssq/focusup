@@ -8,9 +8,11 @@ import { chatWithGemini } from "@/lib/gemini";
 import { toast } from "sonner";
 import { Goal } from "@/lib/types";
 import { cn } from "@/lib/utils";
+import { useLanguage } from "./language-provider";
 
 export function AddGoalDialog({ children }: { children?: React.ReactNode }) {
   const { addGoal } = useFocusStore();
+  const { t, language } = useLanguage();
   const [newGoal, setNewGoal] = useState("");
   const [isBreakingDown, setIsBreakingDown] = useState(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -19,30 +21,28 @@ export function AddGoalDialog({ children }: { children?: React.ReactNode }) {
     if (!newGoal.trim() || isBreakingDown) return;
 
     setIsBreakingDown(true);
-    const toastId = toast.loading("AI анализирует цель и разбивает её на этапы...");
+    const toastId = toast.loading(language === "ru" ? "AI анализирует цель..." : "AI analyzing goal...");
 
     try {
-      const prompt = `Разбей следующую большую цель на 4-6 конкретных подзадач с указанием примерного времени выполнения для каждой. 
-      Цель: "${newGoal}"
-      Верни ответ СТРОГО в формате JSON массива объектов, где каждый объект имеет поля: title (название задачи на русском) и duration (длительность, например "30 мин", "1 ч").
-      Пример: [{"title": "Изучить основы", "duration": "45 мин"}]
-      Не пиши ничего кроме JSON.`;
+      const prompt = language === "ru" 
+        ? `Разбей следующую большую цель на 4-6 конкретных подзадач. Цель: "${newGoal}". Верни ответ СТРОГО в формате JSON массива объектов: [{"title": "...", "duration": "30 мин"}]`
+        : `Break down this goal into 4-6 specific subtasks. Goal: "${newGoal}". Return ONLY JSON array of objects: [{"title": "...", "duration": "30 min"}]`;
 
       const response = await chatWithGemini(prompt);
       const jsonMatch = response.match(/\[[\s\S]*\]/);
-      if (!jsonMatch) throw new Error("Не удалось распознать формат ответа ИИ");
+      if (!jsonMatch) throw new Error("Invalid AI response");
       
       const subtasksData = JSON.parse(jsonMatch[0]);
       
       const newGoalObj: Goal = {
-        id: Math.random().toString(36).substr(2, 9),
+        id: Math.random().toString(36).substring(2, 11),
         title: newGoal,
         progress: 0,
         createdAt: new Date().toISOString(),
-        category: "Общее",
-        deadline: "Скоро",
+        category: language === "ru" ? "Общее" : "General",
+        deadline: language === "ru" ? "Скоро" : "Soon",
         subtasks: subtasksData.map((s: any) => ({
-          id: Math.random().toString(36).substr(2, 9),
+          id: Math.random().toString(36).substring(2, 11),
           title: s.title,
           duration: s.duration,
           done: false,
@@ -52,13 +52,32 @@ export function AddGoalDialog({ children }: { children?: React.ReactNode }) {
       addGoal(newGoalObj);
       setNewGoal("");
       setIsDialogOpen(false);
-      toast.success("Цель успешно создана и разбита на этапы!", { id: toastId });
+      toast.success(language === "ru" ? "Цель создана!" : "Goal created!", { id: toastId });
     } catch (error) {
       console.error(error);
-      toast.error("Не удалось создать цель. Попробуй ещё раз.", { id: toastId });
+      toast.error(language === "ru" ? "Ошибка." : "Error.", { id: toastId });
     } finally {
       setIsBreakingDown(false);
     }
+  };
+
+  const createManually = () => {
+    if (!newGoal.trim()) return;
+
+    const newGoalObj: Goal = {
+      id: Math.random().toString(36).substring(2, 11),
+      title: newGoal,
+      progress: 0,
+      createdAt: new Date().toISOString(),
+      category: language === "ru" ? "Общее" : "General",
+      deadline: language === "ru" ? "Скоро" : "Soon",
+      subtasks: [],
+    };
+
+    addGoal(newGoalObj);
+    setNewGoal("");
+    setIsDialogOpen(false);
+    toast.success(language === "ru" ? "Создано!" : "Created!");
   };
 
   return (
@@ -66,36 +85,37 @@ export function AddGoalDialog({ children }: { children?: React.ReactNode }) {
       <DialogTrigger asChild>
         {children || (
           <Button className="bg-gradient-primary shadow-elegant">
-            <Plus className="h-4 w-4 mr-1" /> Новая цель
+            <Plus className="h-4 w-4 mr-1" /> {t("new_goal")}
           </Button>
         )}
       </DialogTrigger>
       <DialogContent className="bg-card border-border/60">
         <DialogHeader>
-          <DialogTitle>Создать новую цель</DialogTitle>
+          <DialogTitle>{t("create_new_task")}</DialogTitle>
           <DialogDescription>
-            Опишите вашу цель, и наш AI помощник разобьет её на конкретные шаги.
+            {language === "ru" ? "Опишите вашу задачу" : "Describe your task"}
           </DialogDescription>
         </DialogHeader>
         <div className="space-y-4 py-4">
           <div className="flex items-center gap-3 p-4 bg-muted/30 rounded-xl border border-border/40">
             <Sparkles className={cn("h-5 w-5 text-accent shrink-0", isBreakingDown && "animate-spin")} />
             <Input 
-              placeholder="Например: Выучить React за 2 недели..." 
+              placeholder={t("task_description_placeholder")} 
               className="bg-background/50" 
               value={newGoal}
               onChange={(e) => setNewGoal(e.target.value)}
               disabled={isBreakingDown}
-              onKeyDown={(e) => e.key === "Enter" && breakdownWithAI()}
+              onKeyDown={(e) => e.key === "Enter" && (isBreakingDown ? null : breakdownWithAI())}
             />
           </div>
-          <Button 
-            className="w-full bg-gradient-primary" 
-            onClick={breakdownWithAI}
-            disabled={isBreakingDown || !newGoal.trim()}
-          >
-            {isBreakingDown ? "AI анализирует..." : "Разбить на этапы с AI"}
-          </Button>
+          <div className="grid grid-cols-2 gap-3">
+            <Button variant="outline" className="border-border/60 rounded-xl h-11" onClick={createManually} disabled={isBreakingDown || !newGoal.trim()}>
+              {t("split_manually")}
+            </Button>
+            <Button className="bg-gradient-primary rounded-xl h-11" onClick={breakdownWithAI} disabled={isBreakingDown || !newGoal.trim()}>
+              {isBreakingDown ? "..." : t("split_with_ai")}
+            </Button>
+          </div>
         </div>
       </DialogContent>
     </Dialog>

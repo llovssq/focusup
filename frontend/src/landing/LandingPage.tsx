@@ -5,7 +5,7 @@ import { Link } from '@tanstack/react-router';
 import { useTheme } from '../components/theme-provider';
 import './landing.css';
 import { useFocusStore } from '../hooks/use-focus-store';
-import { Snowflake, Check } from 'lucide-react';
+import { Snowflake, Check, Bot, Timer, ClipboardList, Sun, Moon, X } from 'lucide-react';
 import { FireIcon } from '../components/FireIcon';
 import { toast } from 'sonner';
 
@@ -71,56 +71,82 @@ export default function LandingPage() {
 
 
       {/* Mobile Menu Overlay */}
-      <div className={`fixed inset-0 z-[100] bg-black/50 backdrop-blur-sm transition-opacity duration-300 ${isMenuOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`} onClick={() => setIsMenuOpen(false)}>
+      <div 
+        className={`fixed inset-0 z-[100] transition-all duration-500 ${isMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible'}`}
+      >
+        {/* Backdrop */}
         <div 
-          className={`absolute right-0 top-0 h-full w-72 bg-white dark:bg-slate-900 shadow-2xl transition-transform duration-300 transform ${isMenuOpen ? 'translate-x-0' : 'translate-x-full'}`}
+          className="absolute inset-0 bg-black/40 backdrop-blur-sm transition-opacity" 
+          onClick={() => setIsMenuOpen(false)} 
+        />
+        
+        {/* Floating Menu Panel - Style matched to Landing Cards */}
+        <div 
+          className={`absolute right-4 top-4 bottom-4 w-[calc(100%-32px)] sm:w-[360px] bg-white/90 dark:bg-black/80 backdrop-blur-2xl border-[2px] !border-[var(--lp-border)] rounded-[32px] shadow-2xl transition-all duration-500 cubic-bezier(0.16, 1, 0.3, 1) transform ${isMenuOpen ? 'translate-x-0 scale-100' : 'translate-x-20 scale-95 opacity-0'}`}
           onClick={e => e.stopPropagation()}
         >
-          <div className="p-6 space-y-8">
-            <div className="flex justify-between items-center">
-              <span className="font-serif text-xl font-bold">Menu</span>
-              <button onClick={() => setIsMenuOpen(false)} className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+          <div className="p-8 h-full flex flex-col relative overflow-hidden">
+            {/* Header */}
+            <div className="flex justify-between items-center mb-10">
+              <span className="font-serif text-3xl font-bold dark:text-white">
+                Menu
+              </span>
+              <button 
+                onClick={() => setIsMenuOpen(false)} 
+                className="p-2 hover:bg-black/5 dark:hover:bg-white/10 rounded-full transition-colors"
+              >
+                <X className="w-6 h-6 dark:text-white" />
               </button>
             </div>
-            <nav className="flex flex-col gap-4">
-              <a href="#chat" className="text-lg font-medium p-3 rounded-xl hover:bg-gray-50 dark:hover:bg-slate-800 transition-colors flex items-center gap-3">
-                <span className="text-[var(--lp-blue-primary)]">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2a2 2 0 0 1 2 2c0 .74-.4 1.39-1 1.73V7h1a7 7 0 0 1 7 7h1a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v1a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-1H2a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h1a7 7 0 0 1 7-7h1V5.73c-.6-.34-1-.99-1-1.73a2 2 0 0 1 2-2M7.5 13A2.5 2.5 0 0 0 5 15.5A2.5 2.5 0 0 0 7.5 18a2.5 2.5 0 0 0 2.5-2.5A2.5 2.5 0 0 0 7.5 13m9 0a2.5 2.5 0 0 0-2.5 2.5a2.5 2.5 0 0 0 2.5 2.5a2.5 2.5 0 0 0 2.5-2.5a2.5 2.5 0 0 0-2.5-2.5"/></svg>
-                </span>
-                Chat
-              </a>
-              <a href="#timer" className="text-lg font-medium p-3 rounded-xl hover:bg-gray-50 dark:hover:bg-slate-800 transition-colors flex items-center gap-3">
-                <span className="text-[var(--lp-blue-primary)]">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M15 3H9V1h6zm-2 16c0 1.03.26 2 .71 2.83c-.55.11-1.12.17-1.71.17a9 9 0 0 1 0-18c2.12 0 4.07.74 5.62 2l1.42-1.44c.51.44.96.9 1.41 1.41l-1.42 1.42A8.96 8.96 0 0 1 21 13v.35c-.64-.22-1.3-.35-2-.35c-3.31 0-6 2.69-6 6m0-12h-2v7h2zm8.34 8.84l-3.59 3.59l-1.59-1.59L15 19l2.75 3l4.75-4.75z"/></svg>
-                </span>
-                Adaptive Timer
-              </a>
-              <a href="#tasks" className="text-lg font-medium p-3 rounded-xl hover:bg-gray-50 dark:hover:bg-slate-800 transition-colors flex items-center gap-3">
-                <span className="text-[var(--lp-blue-primary)]">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M6 2c-1.11 0-2 .89-2 2v16a2 2 0 0 0 2 2h4v-1.91L12.09 18H6v-2h8.09l2-2H6v-2h12.09L20 10.09V8l-6-6zm7 1.5L18.5 9H13zm7.15 9.5a.55.55 0 0 0-.4.16l-1.02 1.02l2.09 2.08l1.02-1.01c.21-.22.21-.58 0-.79l-1.3-1.3a.54.54 0 0 0-.39-.16m-2.01 1.77L12 20.92V23h2.08l6.15-6.15z"/></svg>
-                </span>
-                Tasks
-              </a>
+
+            {/* Nav Links */}
+            <nav className="flex flex-col gap-2 flex-1">
+              {[
+                { label: 'Chat', href: '#chat', icon: <Bot className="w-5 h-5" /> },
+                { label: 'Adaptive Timer', href: '#timer', icon: <Timer className="w-5 h-5" /> },
+                { label: 'Tasks', href: '#tasks', icon: <ClipboardList className="w-5 h-5" /> },
+              ].map((item, idx) => (
+                <a 
+                  key={item.label}
+                  href={item.href} 
+                  onClick={() => setIsMenuOpen(false)}
+                  className={`flex items-center gap-4 p-4 rounded-2xl hover:bg-black/5 dark:hover:bg-white/5 transition-all group ${isMenuOpen ? 'translate-x-0 opacity-100' : 'translate-x-8 opacity-0'}`}
+                  style={{ transitionDelay: `${idx * 100 + 200}ms` }}
+                >
+                  <div className="w-10 h-10 rounded-xl bg-[var(--lp-blue-primary)]/10 text-[var(--lp-blue-primary)] flex items-center justify-center group-hover:scale-110 transition-transform">
+                    {item.icon}
+                  </div>
+                  <span className="text-lg font-medium dark:text-white group-hover:text-[var(--lp-blue-primary)] transition-colors">{item.label}</span>
+                </a>
+              ))}
+
               <button 
-                onClick={toggleTheme}
-                className="text-lg font-medium p-3 rounded-xl hover:bg-gray-50 dark:hover:bg-slate-800 transition-colors flex items-center gap-3 w-full text-left text-[var(--lp-text-primary)]"
+                onClick={() => { toggleTheme(); }}
+                className={`flex items-center gap-4 p-4 rounded-2xl hover:bg-black/5 dark:hover:bg-white/5 transition-all group text-left ${isMenuOpen ? 'translate-x-0 opacity-100' : 'translate-x-8 opacity-0'}`}
+                style={{ transitionDelay: '500ms' }}
               >
-                <span className="text-[var(--lp-blue-primary)]">
-                  {isDark ? (
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="m6.76 4.84l-1.8-1.79l-1.41 1.41l1.79 1.79zM4 10.5H1v2h3zm9-9.95h-2V3.5h2zm7.45 3.91l-1.41-1.41l-1.79 1.79l1.41 1.41zm-3.21 13.7l1.79 1.8l1.41-1.41l-1.8-1.79zM20 10.5v2h3v-2zm-8-5c-3.31 0-6 2.69-6 6s2.69 6 6 6s6-2.69 6-6s-2.69-6-6-6m-1 16.95h2V19.5h-2zm-7.45-3.91l1.41 1.41l1.79-1.8l-1.41-1.41z"/></svg>
-                  ) : (
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M14 2c1.82 0 3.53.5 5 1.35c-2.99 1.73-5 4.95-5 8.65s2.01 6.92 5 8.65A10 10 0 0 1 14 22C8.48 22 4 17.52 4 12S8.48 2 14 2"/></svg>
-                  )}
-                </span>
-                {isDark ? 'Light Mode' : 'Night Mode'}
+                <div className="w-10 h-10 rounded-xl bg-[var(--lp-blue-primary)]/10 text-[var(--lp-blue-primary)] flex items-center justify-center group-hover:scale-110 transition-transform">
+                  {isDark ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+                </div>
+                <span className="text-lg font-medium dark:text-white group-hover:text-[var(--lp-blue-primary)] transition-colors">{isDark ? 'Light Mode' : 'Night Mode'}</span>
               </button>
-              <div className="h-px bg-gray-100 dark:bg-gray-800 my-2"></div>
-              <Link to="/register" className="text-lg font-medium p-3 rounded-xl bg-[var(--lp-blue-primary)] text-white text-center">Sign Up</Link>
             </nav>
+
+            {/* Sign Up Button */}
+            <div className={`mt-auto pt-6 ${isMenuOpen ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'} transition-all duration-500 delay-500`}>
+              <Link 
+                to="/register" 
+                onClick={() => setIsMenuOpen(false)}
+                className="block w-full py-4 rounded-2xl bg-[var(--lp-blue-primary)] text-white text-center font-bold shadow-lg shadow-blue-500/20 hover:opacity-90 active:scale-95 transition-all"
+              >
+                Sign Up
+              </Link>
+            </div>
           </div>
         </div>
       </div>
+
+
 
       {/* 1. Navbar */}
       <nav className="sticky top-0 z-50 bg-[var(--lp-nav-bg)] backdrop-blur-md border-b !border-[var(--lp-border)]">
@@ -132,11 +158,16 @@ export default function LandingPage() {
             
             <button 
               onClick={() => setIsMenuOpen(true)}
-              className="p-2 rounded-lg hover:bg-[var(--lp-surface-subtle)] transition-colors text-[var(--lp-text-primary)]"
+              className="group relative p-3 rounded-xl hover:bg-[var(--lp-surface-subtle)] transition-all active:scale-90 text-[var(--lp-text-primary)] overflow-hidden"
               aria-label="Menu"
             >
-              <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+              <div className="relative flex flex-col gap-1.5 w-6 items-end">
+                <span className={`h-0.5 bg-current transition-all duration-300 ${isMenuOpen ? 'w-6 translate-y-2 rotate-45' : 'w-6'}`}></span>
+                <span className={`h-0.5 bg-current transition-all duration-300 ${isMenuOpen ? 'opacity-0' : 'w-4'}`}></span>
+                <span className={`h-0.5 bg-current transition-all duration-300 ${isMenuOpen ? 'w-6 -translate-y-2 -rotate-45' : 'w-5'}`}></span>
+              </div>
             </button>
+
           </div>
         </div>
       </nav>
@@ -221,7 +252,7 @@ export default function LandingPage() {
           
           <div className="flex flex-col gap-16">
             <Reveal delay={0} className="relative pl-8 md:pl-12 border-l-[1.5px] !border-[var(--lp-blue-primary)]">
-              <span className="absolute -left-12 -top-14 text-8xl font-serif !text-[var(--lp-surface-bubble)] font-bold -z-10 select-none">01</span>
+              <span className="absolute -left-6 md:-left-12 -top-10 md:-top-14 text-7xl md:text-8xl font-serif !text-[var(--lp-surface-bubble)] font-bold -z-10 select-none opacity-20 md:opacity-100">01</span>
               <h3 className="text-xl font-semibold mb-3">
                 <span className="!text-[var(--lp-cyan-accent)] mr-2">01</span>Tracks your patterns
               </h3>
@@ -229,7 +260,7 @@ export default function LandingPage() {
             </Reveal>
             
             <Reveal delay={150} className="relative pl-8 md:pl-12 border-l-[1.5px] !border-[var(--lp-blue-primary)]">
-              <span className="absolute -left-12 -top-14 text-8xl font-serif !text-[var(--lp-surface-bubble)] font-bold -z-10 select-none">02</span>
+              <span className="absolute -left-6 md:-left-12 -top-10 md:-top-14 text-7xl md:text-8xl font-serif !text-[var(--lp-surface-bubble)] font-bold -z-10 select-none opacity-20 md:opacity-100">02</span>
               <h3 className="text-xl font-semibold mb-3">
                 <span className="!text-[var(--lp-cyan-accent)] mr-2">02</span>Schedules your peak window
               </h3>
@@ -237,7 +268,7 @@ export default function LandingPage() {
             </Reveal>
             
             <Reveal delay={300} className="relative pl-8 md:pl-12 border-l-[1.5px] !border-[var(--lp-blue-primary)]">
-              <span className="absolute -left-12 -top-14 text-8xl font-serif !text-[var(--lp-surface-bubble)] font-bold -z-10 select-none">03</span>
+              <span className="absolute -left-6 md:-left-12 -top-10 md:-top-14 text-7xl md:text-8xl font-serif !text-[var(--lp-surface-bubble)] font-bold -z-10 select-none opacity-20 md:opacity-100">03</span>
               <h3 className="text-xl font-semibold mb-3">
                 <span className="!text-[var(--lp-cyan-accent)] mr-2">03</span>Smart Start
               </h3>

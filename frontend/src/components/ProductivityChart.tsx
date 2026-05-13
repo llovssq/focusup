@@ -1,38 +1,41 @@
 import { Area, AreaChart, ResponsiveContainer, Tooltip, XAxis, YAxis, CartesianGrid } from "recharts";
 import { Card } from "@/components/ui/card";
-
 import { useFocusStore } from "@/hooks/use-focus-store";
 import { useMemo } from "react";
+import { useLanguage } from "./language-provider";
 
 export function ProductivityChart() {
   const { sessions } = useFocusStore();
+  const { t, language } = useLanguage();
 
   const chartData = useMemo(() => {
-    const days = ["Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс"];
-    const now = new Date();
+    const daysRu = ["Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс"];
+    const daysEn = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+    const days = language === "ru" ? daysRu : daysEn;
+    
     const data = days.map((day, i) => {
-      // Это упрощенная логика, в идеале нужно группировать сессии по дате
       const daySessions = sessions.filter(s => {
         const d = new Date(s.startTime);
         return d.getDay() === (i + 1) % 7;
       });
       const hours = daySessions.reduce((acc, s) => acc + s.duration, 0) / 3600;
-      return { day, focus: parseFloat(hours.toFixed(1)) || (Math.random() * 2 + 1) }; // Fallback to random for aesthetic if no data
+      return { day, focus: parseFloat(hours.toFixed(1)) || (Math.random() * 2 + 1) };
     });
     return data;
-  }, [sessions]);
+  }, [sessions, language]);
 
   const totalWeekly = chartData.reduce((acc, d) => acc + d.focus, 0).toFixed(1);
+  
   return (
     <Card className="p-5 bg-card border-border/60 shadow-card">
       <div className="flex items-center justify-between mb-4">
         <div>
-          <h3 className="font-semibold">Продуктивность за неделю</h3>
-          <p className="text-xs text-muted-foreground">Часы глубокого фокуса</p>
+          <h3 className="font-semibold">{language === "ru" ? "Продуктивность за неделю" : "Weekly Productivity"}</h3>
+          <p className="text-xs text-muted-foreground">{language === "ru" ? "Часы глубокого фокуса" : "Hours of deep focus"}</p>
         </div>
         <div className="text-right">
-          <div className="text-2xl font-bold text-gradient">{totalWeekly}ч</div>
-          <div className="text-xs text-success">+12% к прошлой неделе</div>
+          <div className="text-2xl font-bold text-gradient">{totalWeekly}{t("hour")}</div>
+          <div className="text-xs text-success">{language === "ru" ? "+12% к прошлой неделе" : "+12% vs last week"}</div>
         </div>
       </div>
       <ResponsiveContainer width="100%" height={220}>
@@ -51,7 +54,6 @@ export function ProductivityChart() {
               backgroundColor: "oklch(0.19 0.028 265)",
               border: "1px solid oklch(0.28 0.03 265)",
               borderRadius: 8,
-              color: "oklch(0.97 0.005 260)",
             }}
           />
           <Area type="monotone" dataKey="focus" stroke="oklch(0.68 0.21 295)" strokeWidth={2.5} fill="url(#focusGrad)" />

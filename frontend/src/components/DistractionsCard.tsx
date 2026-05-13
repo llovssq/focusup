@@ -5,9 +5,11 @@ import { useState } from "react";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { toast } from "sonner";
+import { useLanguage } from "./language-provider";
 
 export function DistractionsCard() {
   const { distractions, addDistraction, deleteDistraction, updateDistraction } = useFocusStore();
+  const { t, language } = useLanguage();
   const [isAdding, setIsAdding] = useState(false);
   const [newName, setNewName] = useState("");
   const [newMinutes, setNewMinutes] = useState("");
@@ -32,13 +34,12 @@ export function DistractionsCard() {
     setNewName("");
     setNewMinutes("");
     setIsAdding(false);
-    toast.success("Отвлечение добавлено");
+    toast.success(language === "ru" ? "Отвлечение добавлено" : "Distraction added");
   };
 
   const saveEdit = (id: string) => {
     const mins = parseInt(editMinutes);
     if (isNaN(mins)) return;
-    
     const d = distractions.find(d => d.id === id);
     if (d) {
       updateDistraction({ ...d, minutes: mins });
@@ -54,38 +55,20 @@ export function DistractionsCard() {
             <AlertCircle className="h-4 w-4" />
           </div>
           <div>
-            <h3 className="font-semibold">Главные отвлечения</h3>
-            <p className="text-xs text-muted-foreground">Сегодня • {totalMinutes} минут потрачено</p>
+            <h3 className="font-semibold">{language === "ru" ? "Главные отвлечения" : "Main Distractions"}</h3>
+            <p className="text-xs text-muted-foreground">{language === "ru" ? "Сегодня" : "Today"} • {totalMinutes} {t("min")} {language === "ru" ? "потрачено" : "spent"}</p>
           </div>
         </div>
-        <Button 
-          variant="ghost" 
-          size="icon" 
-          className="h-8 w-8 rounded-full" 
-          onClick={() => setIsAdding(!isAdding)}
-        >
+        <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full" onClick={() => setIsAdding(!isAdding)}>
           {isAdding ? <X className="h-4 w-4" /> : <Plus className="h-4 w-4" />}
         </Button>
       </div>
 
       {isAdding && (
         <div className="flex gap-2 mb-4 animate-in fade-in slide-in-from-top-2">
-          <Input 
-            placeholder="Название" 
-            className="h-8 text-xs" 
-            value={newName} 
-            onChange={(e) => setNewName(e.target.value)} 
-          />
-          <Input 
-            placeholder="Мин" 
-            type="number" 
-            className="h-8 text-xs w-20" 
-            value={newMinutes} 
-            onChange={(e) => setNewMinutes(e.target.value)} 
-          />
-          <Button size="sm" className="h-8 px-2" onClick={handleAdd}>
-            <Check className="h-4 w-4" />
-          </Button>
+          <Input placeholder={language === "ru" ? "Название" : "Name"} className="h-8 text-xs" value={newName} onChange={(e) => setNewName(e.target.value)} />
+          <Input placeholder={t("min")} type="number" className="h-8 text-xs w-20" value={newMinutes} onChange={(e) => setNewMinutes(e.target.value)} />
+          <Button size="sm" className="h-8 px-2" onClick={handleAdd}><Check className="h-4 w-4" /></Button>
         </div>
       )}
 
@@ -93,48 +76,23 @@ export function DistractionsCard() {
         {distractions.map((d) => {
           const isEditing = editingId === d.id;
           const percent = (d.minutes / maxMinutes) * 100;
-
           return (
             <div key={d.id} className="group relative">
               <div className="flex items-center justify-between mb-1.5">
                 <span className="text-sm font-medium">{d.name}</span>
                 <div className="flex items-center gap-2">
                   {isEditing ? (
-                    <Input 
-                      type="number" 
-                      autoFocus
-                      className="h-6 w-16 text-xs px-1" 
-                      value={editMinutes} 
-                      onChange={(e) => setEditMinutes(e.target.value)}
-                      onBlur={() => saveEdit(d.id)}
-                      onKeyDown={(e) => e.key === "Enter" && saveEdit(d.id)}
-                    />
+                    <Input type="number" autoFocus className="h-6 w-16 text-xs px-1" value={editMinutes} onChange={(e) => setEditMinutes(e.target.value)} onBlur={() => saveEdit(d.id)} onKeyDown={(e) => e.key === "Enter" && saveEdit(d.id)} />
                   ) : (
-                    <span 
-                      className="text-xs text-muted-foreground cursor-pointer hover:text-primary"
-                      onClick={() => {
-                        setEditingId(d.id);
-                        setEditMinutes(d.minutes.toString());
-                      }}
-                    >
-                      {d.minutes} мин
+                    <span className="text-xs text-muted-foreground cursor-pointer hover:text-primary" onClick={() => { setEditingId(d.id); setEditMinutes(d.minutes.toString()); }}>
+                      {d.minutes} {t("min")}
                     </span>
                   )}
-                  <Button 
-                    variant="ghost" 
-                    size="icon" 
-                    className="h-6 w-6 opacity-0 group-hover:opacity-100 transition-opacity text-muted-foreground hover:text-destructive"
-                    onClick={() => deleteDistraction(d.id)}
-                  >
-                    <Trash2 className="h-3 w-3" />
-                  </Button>
+                  <Button variant="ghost" size="icon" className="h-6 w-6 opacity-0 group-hover:opacity-100 transition-opacity" onClick={() => deleteDistraction(d.id)}><Trash2 className="h-3 w-3" /></Button>
                 </div>
               </div>
               <div className="h-2 w-full rounded-full bg-muted overflow-hidden">
-                <div
-                  className="h-full rounded-full transition-all duration-500"
-                  style={{ width: `${percent}%`, background: d.color }}
-                />
+                <div className="h-full rounded-full transition-all duration-500" style={{ width: `${percent}%`, background: d.color }} />
               </div>
             </div>
           );
