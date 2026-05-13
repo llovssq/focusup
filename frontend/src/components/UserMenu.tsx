@@ -24,6 +24,7 @@ import {
   DropdownMenuSubContent,
   DropdownMenuPortal,
 } from "@/components/ui/dropdown-menu";
+import { Link } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
 import { useTheme } from "./theme-provider";
 import { useLanguage } from "./language-provider";
@@ -56,9 +57,11 @@ export function UserMenu() {
           {t("account")}
         </DropdownMenuLabel>
         <DropdownMenuGroup>
-          <DropdownMenuItem className="flex items-center gap-2 px-3 py-2.5 rounded-xl cursor-pointer">
-            <User className="h-4 w-4 text-primary" />
-            <span>{t("profile")}</span>
+          <DropdownMenuItem asChild className="flex items-center gap-2 px-3 py-2.5 rounded-xl cursor-pointer">
+            <Link to="/profile" className="flex items-center gap-2 w-full">
+              <User className="h-4 w-4 text-primary" />
+              <span>{t("profile")}</span>
+            </Link>
           </DropdownMenuItem>
           <DropdownMenuItem className="flex items-center gap-2 px-3 py-2.5 rounded-xl cursor-pointer">
             <Settings className="h-4 w-4 text-primary" />

@@ -15,6 +15,7 @@ import { Route as AppRouteImport } from './routes/_app'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AppTasksRouteImport } from './routes/_app.tasks'
 import { Route as AppStatsRouteImport } from './routes/_app.stats'
+import { Route as AppProfileRouteImport } from './routes/_app.profile'
 import { Route as AppHabitsRouteImport } from './routes/_app.habits'
 import { Route as AppDashboardRouteImport } from './routes/_app.dashboard'
 import { Route as AppCoachRouteImport } from './routes/_app.coach'
@@ -48,6 +49,11 @@ const AppStatsRoute = AppStatsRouteImport.update({
   path: '/stats',
   getParentRoute: () => AppRoute,
 } as any)
+const AppProfileRoute = AppProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppHabitsRoute = AppHabitsRouteImport.update({
   id: '/habits',
   path: '/habits',
@@ -71,6 +77,7 @@ export interface FileRoutesByFullPath {
   '/coach': typeof AppCoachRoute
   '/dashboard': typeof AppDashboardRoute
   '/habits': typeof AppHabitsRoute
+  '/profile': typeof AppProfileRoute
   '/stats': typeof AppStatsRoute
   '/tasks': typeof AppTasksRoute
 }
@@ -81,6 +88,7 @@ export interface FileRoutesByTo {
   '/coach': typeof AppCoachRoute
   '/dashboard': typeof AppDashboardRoute
   '/habits': typeof AppHabitsRoute
+  '/profile': typeof AppProfileRoute
   '/stats': typeof AppStatsRoute
   '/tasks': typeof AppTasksRoute
 }
@@ -93,6 +101,7 @@ export interface FileRoutesById {
   '/_app/coach': typeof AppCoachRoute
   '/_app/dashboard': typeof AppDashboardRoute
   '/_app/habits': typeof AppHabitsRoute
+  '/_app/profile': typeof AppProfileRoute
   '/_app/stats': typeof AppStatsRoute
   '/_app/tasks': typeof AppTasksRoute
 }
@@ -105,6 +114,7 @@ export interface FileRouteTypes {
     | '/coach'
     | '/dashboard'
     | '/habits'
+    | '/profile'
     | '/stats'
     | '/tasks'
   fileRoutesByTo: FileRoutesByTo
@@ -115,6 +125,7 @@ export interface FileRouteTypes {
     | '/coach'
     | '/dashboard'
     | '/habits'
+    | '/profile'
     | '/stats'
     | '/tasks'
   id:
@@ -126,6 +137,7 @@ export interface FileRouteTypes {
     | '/_app/coach'
     | '/_app/dashboard'
     | '/_app/habits'
+    | '/_app/profile'
     | '/_app/stats'
     | '/_app/tasks'
   fileRoutesById: FileRoutesById
@@ -181,6 +193,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppStatsRouteImport
       parentRoute: typeof AppRoute
     }
+    '/_app/profile': {
+      id: '/_app/profile'
+      path: '/profile'
+      fullPath: '/profile'
+      preLoaderRoute: typeof AppProfileRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/_app/habits': {
       id: '/_app/habits'
       path: '/habits'
@@ -209,6 +228,7 @@ interface AppRouteChildren {
   AppCoachRoute: typeof AppCoachRoute
   AppDashboardRoute: typeof AppDashboardRoute
   AppHabitsRoute: typeof AppHabitsRoute
+  AppProfileRoute: typeof AppProfileRoute
   AppStatsRoute: typeof AppStatsRoute
   AppTasksRoute: typeof AppTasksRoute
 }
@@ -217,6 +237,7 @@ const AppRouteChildren: AppRouteChildren = {
   AppCoachRoute: AppCoachRoute,
   AppDashboardRoute: AppDashboardRoute,
   AppHabitsRoute: AppHabitsRoute,
+  AppProfileRoute: AppProfileRoute,
   AppStatsRoute: AppStatsRoute,
   AppTasksRoute: AppTasksRoute,
 }

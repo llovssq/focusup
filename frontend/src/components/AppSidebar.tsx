@@ -1,4 +1,4 @@
-import { Link, useRouterState } from "@tanstack/react-router";
+import { Link, useRouterState, useNavigate } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
 import { LayoutDashboard, ListTodo, Activity, Bot, BarChart3, Sparkles } from "lucide-react";
 import {
@@ -30,6 +30,7 @@ export function AppSidebar() {
   const { state } = useSidebar();
   const { t, language } = useLanguage();
   const { user } = useFocusStore();
+  const navigate = useNavigate();
   const collapsed = state === "collapsed";
   const currentPath = useRouterState({ select: (r) => r.location.pathname });
   const isActive = (path: string) => currentPath === path;
@@ -79,8 +80,11 @@ export function AppSidebar() {
       </SidebarContent>
 
       <SidebarFooter className="border-t border-sidebar-border">
-        <div className="flex items-center gap-3 p-2">
-          <div className="h-9 w-9 shrink-0 rounded-full bg-gradient-primary flex items-center justify-center text-sm font-semibold text-primary-foreground">
+        <div 
+          onClick={() => navigate({ to: "/profile" })}
+          className={`flex items-center gap-3 p-2 rounded-lg transition-colors hover:bg-sidebar-accent group cursor-pointer ${isActive('/profile') ? 'bg-sidebar-accent' : ''}`}
+        >
+          <div className="h-9 w-9 shrink-0 rounded-full bg-gradient-primary flex items-center justify-center text-sm font-semibold text-primary-foreground group-hover:scale-105 transition-transform">
             {user.name.charAt(0)}
           </div>
           {!collapsed && (

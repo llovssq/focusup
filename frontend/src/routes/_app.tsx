@@ -61,9 +61,6 @@ function AppLayout() {
         <div className="flex-1 flex flex-col min-w-0">
           <header className="h-14 border-b border-border/60 flex items-center gap-2 sm:gap-3 px-3 sm:px-4 bg-background/80 backdrop-blur-sm sticky top-0 z-10">
             <SidebarTrigger className="h-9 w-9" />
-            <div className="absolute left-1/2 -translate-x-1/2 sm:hidden pointer-events-none">
-               <span className="font-bold text-lg bg-gradient-primary bg-clip-text text-transparent">Vela</span>
-            </div>
             <div className="flex-1 hidden sm:block max-w-md relative">
               <Search className="h-4 w-4 absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
               <Input placeholder={t("search_placeholder")} className="pl-9 bg-muted/40 border-border/40 h-9" />
