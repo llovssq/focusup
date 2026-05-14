@@ -35,10 +35,10 @@ function Dashboard() {
       {/* Header */}
       <div className="flex items-center justify-between flex-wrap gap-4">
         <div>
-          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">
+          <h1 className="text-3xl sm:text-3xl font-bold tracking-tight">
             {t("greeting")}, <span className="text-gradient">{user.name}</span>
           </h1>
-          <p className="text-xs sm:text-sm text-muted-foreground mt-1">
+          <p className="text-sm sm:text-sm text-muted-foreground mt-1.5">
             {t("today_tasks", { count: 5 })}
           </p>
         </div>
@@ -53,7 +53,7 @@ function Dashboard() {
       </div>
 
       {/* Stats */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         <StatCard 
           title={t("tasks_completed")} 
           value={completedCount.toString()} 
