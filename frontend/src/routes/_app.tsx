@@ -11,6 +11,8 @@ import { StreakModal } from "@/components/StreakModal";
 import { supabase } from "@/lib/supabase";
 import { useLanguage } from "@/components/language-provider";
 
+import { MobileNav } from "@/components/MobileNav";
+
 export const Route = createFileRoute("/_app")({
   component: AppLayout,
 });
@@ -56,14 +58,17 @@ function AppLayout() {
 
   return (
     <SidebarProvider>
-      <div className="min-h-screen flex w-full bg-background">
+      <div className="min-h-screen flex w-full bg-background overflow-hidden">
         <AppSidebar />
         <div className="flex-1 flex flex-col min-w-0">
           <header className="h-14 border-b border-border/60 flex items-center gap-2 sm:gap-3 px-3 sm:px-4 bg-background/80 backdrop-blur-sm sticky top-0 z-10">
-            <SidebarTrigger className="h-9 w-9" />
             <div className="flex-1 hidden sm:block max-w-md relative">
               <Search className="h-4 w-4 absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
               <Input placeholder={t("search_placeholder")} className="pl-9 bg-muted/40 border-border/40 h-9" />
+            </div>
+            <div className="flex-1 sm:hidden flex items-center">
+                <img src="/logo.png" alt="Vela logo" className="h-12 w-12 object-contain -ml-2 logo-main" />
+                <span className="font-bold text-xl tracking-tight text-primary uppercase">Vela</span>
             </div>
             <div className="ml-auto flex items-center gap-1.5 sm:gap-2">
               <button 
@@ -76,10 +81,11 @@ function AppLayout() {
               <UserMenu />
             </div>
           </header>
-          <main className="flex-1 overflow-auto text-foreground">
+          <main className="flex-1 overflow-auto text-foreground pb-20 md:pb-0">
             <Outlet />
           </main>
         </div>
+        <MobileNav />
       </div>
       <StreakModal open={isStreakOpen} onOpenChange={setIsStreakOpen} />
     </SidebarProvider>

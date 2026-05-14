@@ -135,6 +135,9 @@ function LoginPage() {
               top: 24,
               left: 24,
               zIndex: 2,
+              display: "flex",
+              alignItems: "center",
+              gap: 12,
               fontFamily: "ui-serif, Georgia, Cambria, 'Times New Roman', Times, serif",
               fontWeight: 700,
               fontSize: 26,
@@ -142,6 +145,7 @@ function LoginPage() {
               color: "white",
             }}
           >
+            <img src="/logo.png" alt="Vela logo" className="h-20 w-20 object-contain -ml-4 logo-main" />
             Vela
           </div>
 

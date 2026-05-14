@@ -1,6 +1,6 @@
 import { Link, useRouterState, useNavigate } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
-import { LayoutDashboard, ListTodo, Activity, Bot, BarChart3, Sparkles } from "lucide-react";
+import { LayoutDashboard, ListTodo, Activity, Bot, BarChart3 } from "lucide-react";
 import {
   Sidebar,
   SidebarContent,
@@ -47,13 +47,17 @@ export function AppSidebar() {
     <Sidebar collapsible="icon">
       <SidebarHeader className="border-b border-sidebar-border">
         <div className="flex items-center gap-2 px-2 py-3">
-          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-gradient-primary shadow-glow">
-            <Sparkles className="h-5 w-5 text-primary-foreground" />
-          </div>
-          {!collapsed && (
-            <div className="flex flex-col">
-              <span className="font-semibold tracking-tight">Vela</span>
-              <span className="text-[10px] text-muted-foreground leading-tight">Stop scrolling. Start becoming.</span>
+          {!collapsed ? (
+            <div className="flex items-center">
+              <img src="/logo.png" alt="Vela logo" className="h-14 w-14 object-contain -ml-2 logo-main" />
+              <div className="flex flex-col -ml-1">
+                <span className="font-semibold tracking-tight text-xl text-primary uppercase leading-none">Vela</span>
+                <span className="text-[10px] text-muted-foreground leading-tight mt-1">Stop scrolling. Start becoming.</span>
+              </div>
+            </div>
+          ) : (
+            <div className="flex h-12 w-12 shrink-0 items-center justify-center">
+              <img src="/logo.png" alt="Vela logo" className="h-11 w-11 object-contain logo-main" />
             </div>
           )}
         </div>

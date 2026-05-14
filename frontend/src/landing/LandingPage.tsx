@@ -151,8 +151,9 @@ export default function LandingPage() {
       {/* 1. Navbar */}
       <nav className="sticky top-0 z-50 bg-[var(--lp-nav-bg)] backdrop-blur-md border-b !border-[var(--lp-border)]">
         <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-          <div className="flex items-start">
-            <span className="font-serif text-2xl tracking-tight leading-none pt-1 dark:text-white">Vela</span>
+          <div className="flex items-center">
+            <img src="/logo.png" alt="Vela logo" className="h-16 w-16 object-contain -ml-2 logo-main" />
+            <span className="font-serif text-2xl tracking-tight leading-none pt-1 dark:text-white uppercase">Vela</span>
           </div>
           <div className="flex items-center gap-2 md:gap-4">
             
@@ -347,8 +348,9 @@ export default function LandingPage() {
           
           {/* Brand & Conclusion */}
           <div className="flex flex-col items-center text-center space-y-6">
-            <div className="flex items-start">
-              <span className="font-serif text-2xl tracking-tight leading-none">Vela</span>
+            <div className="flex items-center">
+              <img src="/logo.png" alt="Vela logo" className="h-16 w-16 object-contain logo-main" />
+              <span className="font-serif text-2xl tracking-tight leading-none uppercase">Vela</span>
             </div>
             <p className="text-gray-600 dark:text-gray-400 leading-relaxed max-w-xs">
               Vela is an ecosystem designed to help students reclaim their focus. By leveraging intelligent nudges and behavioral analytics, we turn procrastination into productivity.

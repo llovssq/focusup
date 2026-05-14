@@ -74,7 +74,7 @@
   --muted: oklch(0.95 0.02 265);
   --muted-foreground: oklch(0.4 0.02 265);
 
-  --accent: oklch(0.72 0.18 200);
+  --accent: oklch(0.7 0.2 320);
   --accent-foreground: oklch(0.99 0 0);
 
   --destructive: oklch(0.65 0.22 25);
@@ -91,12 +91,12 @@
   --ring: oklch(0.68 0.21 295);
 
   --chart-1: oklch(0.68 0.21 295);
-  --chart-2: oklch(0.72 0.18 200);
+  --chart-2: oklch(0.7 0.2 320);
   --chart-3: oklch(0.72 0.18 155);
   --chart-4: oklch(0.8 0.17 75);
   --chart-5: oklch(0.7 0.2 340);
 
-  --gradient-primary: linear-gradient(135deg, oklch(0.68 0.21 295), oklch(0.72 0.18 200));
+  --gradient-primary: linear-gradient(135deg, oklch(0.68 0.21 295), oklch(0.7 0.2 320));
   --gradient-subtle: linear-gradient(135deg, oklch(0.98 0.01 265), oklch(0.95 0.02 265));
   --gradient-glow: radial-gradient(circle at 50% 0%, oklch(0.68 0.21 295 / 0.15), transparent 70%);
 
@@ -135,7 +135,7 @@
   --muted: oklch(0.23 0.025 265);
   --muted-foreground: oklch(0.68 0.02 260);
 
-  --accent: oklch(0.72 0.18 200);
+  --accent: oklch(0.7 0.2 320);
   --accent-foreground: oklch(0.15 0.025 265);
 
   --destructive: oklch(0.65 0.22 25);
@@ -152,13 +152,13 @@
   --ring: oklch(0.68 0.21 295);
 
   --chart-1: oklch(0.68 0.21 295);
-  --chart-2: oklch(0.72 0.18 200);
+  --chart-2: oklch(0.7 0.2 320);
   --chart-3: oklch(0.72 0.18 155);
   --chart-4: oklch(0.8 0.17 75);
   --chart-5: oklch(0.7 0.2 340);
 
   /* Gradients & shadows */
-  --gradient-primary: linear-gradient(135deg, oklch(0.68 0.21 295), oklch(0.72 0.18 200));
+  --gradient-primary: linear-gradient(135deg, oklch(0.68 0.21 295), oklch(0.7 0.2 320));
   --gradient-subtle: linear-gradient(135deg, oklch(0.19 0.028 265), oklch(0.22 0.04 280));
   --gradient-glow: radial-gradient(circle at 50% 0%, oklch(0.68 0.21 295 / 0.25), transparent 70%);
 
@@ -180,6 +180,7 @@
   * {
     border-color: var(--color-border);
   }
+
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
@@ -191,16 +192,20 @@
     width: 6px;
     height: 6px;
   }
+
   ::-webkit-scrollbar-track {
     background: transparent;
   }
+
   ::-webkit-scrollbar-thumb {
     background: var(--color-border);
     border-radius: 10px;
   }
+
   ::-webkit-scrollbar-thumb:hover {
     background: var(--color-muted-foreground);
   }
+
   * {
     scrollbar-width: thin;
     scrollbar-color: var(--color-border) transparent;
@@ -211,34 +216,60 @@
   .bg-gradient-primary {
     background: var(--gradient-primary);
   }
+
   .bg-gradient-subtle {
     background: var(--gradient-subtle);
   }
+
   .bg-gradient-glow {
     background: var(--gradient-glow);
   }
+
   .shadow-glow {
     box-shadow: var(--shadow-glow);
   }
+
   .shadow-card {
     box-shadow: var(--shadow-card);
   }
+
   .shadow-elegant {
     box-shadow: var(--shadow-elegant);
   }
+
   .text-gradient {
     background: var(--gradient-primary);
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
   }
+
+  .pb-safe {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  .pt-safe {
+    padding-top: env(safe-area-inset-top);
+  }
+
+  .min-h-safe {
+    min-height: calc(100vh - env(safe-area-inset-bottom) - env(safe-area-inset-top));
+  }
 }
 
 @keyframes pulse-glow {
-  0%, 100% { box-shadow: 0 0 20px oklch(0.68 0.21 295 / 0.3); }
-  50% { box-shadow: 0 0 40px oklch(0.68 0.21 295 / 0.6); }
+
+  0%,
+  100% {
+    box-shadow: 0 0 20px oklch(0.68 0.21 295 / 0.3);
+  }
+
+  50% {
+    box-shadow: 0 0 40px oklch(0.68 0.21 295 / 0.6);
+  }
 }
-  .animate-pulse-glow {
+
+.animate-pulse-glow {
   animation: pulse-glow 3s ease-in-out infinite;
 }
 
@@ -248,6 +279,7 @@
     transform: translateY(20px);
     transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
   }
+
   .animate-reveal.is-visible {
     opacity: 1;
     transform: translateY(0);
@@ -258,13 +290,17 @@
     initial-value: 0;
     inherits: false;
   }
+
   .timer-seconds::after {
     counter-reset: time var(--time);
     content: counter(time, decimal-leading-zero);
     animation: countUp 59s steps(59, end) infinite;
   }
+
   @keyframes countUp {
-    to { --time: 59; }
+    to {
+      --time: 59;
+    }
   }
 
   .chat-bubble {
@@ -272,10 +308,14 @@
     transform: translateY(10px);
     transition: opacity 0.4s ease-out, transform 0.4s ease-out;
   }
+
   .chat-bubble.is-visible {
     opacity: 1;
     transform: translateY(0);
   }
+
+  .logo-main {
+    transform: translateY(5px);
+    /* Редактируйте это значение (напр. 2px, 5px, -3px) для смещения логотипа по вертикали */
+  }
 }
-
-

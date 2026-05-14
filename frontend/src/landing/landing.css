@@ -2,8 +2,8 @@
   :root {
     --lp-background: #F8FAFC;
     --lp-text-primary: #0F172A;
-    --lp-blue-primary: #2563EB;
-    --lp-cyan-accent: #0EA5E9;
+    --lp-blue-primary: #7C3AED;
+    --lp-cyan-accent: #A855F7;
     --lp-surface-subtle: #F1F5F9;
     --lp-surface-bubble: #94A3B8;
     --lp-border: #E2E8F0;
@@ -13,8 +13,8 @@
   .dark {
     --lp-background: #020617;
     --lp-text-primary: #FFFFFF;
-    --lp-blue-primary: #38BDF8;
-    --lp-cyan-accent: #22D3EE;
+    --lp-blue-primary: #A855F7;
+    --lp-cyan-accent: #D8B4FE;
     --lp-surface-subtle: #0F172A;
     --lp-surface-bubble: #1E293B;
     --lp-border: #1E293B;
